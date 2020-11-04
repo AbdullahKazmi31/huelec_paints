@@ -1,7 +1,18 @@
 import React from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { signOutreduce } from '../Actions/userActions';
+import {FaSignInAlt, FaSignOutAlt} from 'react-icons/fa';
 
-function NavBar(){
+function NavBar(props){
+    const handleSubmit = async event => {
+        event.preventDefault();
+        dispatch(signOutreduce());
+    };
+
+    const userSignin = useSelector((state) => state.userSignin);
+    const {user} = userSignin;
+    const dispatch = useDispatch();
     return(
         <div>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -10,7 +21,7 @@ function NavBar(){
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
                 <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="products">Products</Nav.Link>
+                <Nav.Link href="/products">Products</Nav.Link>
                 <NavDropdown title="Interior Paints" id="collasible-nav-dropdown">
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action/3.1">Matt Emulsion</NavDropdown.Item>
@@ -69,10 +80,14 @@ function NavBar(){
                 <Nav.Link href="PaintCalculator">Paint Calculator</Nav.Link>
                 <Nav.Link href="#About">About Us</Nav.Link>
                 </Nav>
+                {user ? <p></p> :                 
                 <Nav>
                 <Nav.Link href="#ContactUs"><h5>Contact us</h5><p>0321-4606877</p></Nav.Link>
-                </Nav>
+                </Nav>}
+                {user ? <Nav.Link href='/categorieslist'>Category Management</Nav.Link> : <span></span>}
             </Navbar.Collapse>
+            {user ? <li className="list-inline-item"><a className="btn-floating btn-lg btn-fb mx-1" href="/" onClick={handleSubmit}><FaSignOutAlt /></a></li> :
+                <li className="list-inline-item"><a className="btn-floating btn-lg btn-fb mx-1" href="/SignIn" ><FaSignInAlt /></a></li>}
             </Navbar>
         </div>
     );

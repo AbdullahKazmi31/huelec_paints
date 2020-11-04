@@ -10,25 +10,37 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './index.css';
 import App from './App';
 
-import ProductCategories from './page/productCategories.jsx';
-import Product from './page/Products.jsx';
-import ProductDetail from './page/productDetail.jsx';
+import SignIn from './signin';
+import ProductCategories from './productCategories.jsx';
+import Product from './Products.jsx';
+import ProductDetail from './productDetail.jsx';
 
 import PaintCalculator from './PaintCalculator.js';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux';
+import store from './store';
+import SignOut from './signOut';
+import ProductsListScreen from './prodictsList';
+import CategoriesScreen from './categoriesList';
 
 const history = createBrowserHistory();
 
 ReactDOM.render(
+  <Provider store = {store}>
   <Router history={history}>
     <Switch>
       <Route exact path="/" component={App} />
       <Route exact path="/products" component={ProductCategories} />
       <Route exact path={`/products/:categoryid`} component={Product}/>
       <Route exact path={`/products/:categoryid/:productid`} component={ProductDetail}/>
+      <Route exact path={`/SignIn`} component={SignIn}/>
+      <Route exact path={`/signout`} component={SignOut}/>
+      <Route exact path={`/categorieslist`} component={CategoriesScreen}/>
+      <Route exact path={`/categorieslist/:categoryid`} component={ProductsListScreen}/>
       <Route path="/PaintCalculator" component={PaintCalculator} />
     </Switch>
-  </Router>,
+  </Router>
+  </Provider>,
   document.getElementById('root')
 );
 
